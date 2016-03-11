@@ -17,9 +17,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        foodImg.dropTarget = monsterImg
+        heartImg.dropTarget = monsterImg
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "itemDroppedOnCharacter:", name: "onTargetDropped", object: nil)
     }
 
-
+    func itemDroppedOnCharacter(notif: AnyObject) {
+        print("Item dropped on character")
+    }
 
 }
 
