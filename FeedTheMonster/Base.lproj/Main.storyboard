@@ -67,13 +67,13 @@
                                     <constraint firstAttribute="width" constant="674" id="zGz-fK-TnD"/>
                                 </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="UYQ-Y4-vES" userLabel="activeStackView">
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" distribution="fillEqually" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="UYQ-Y4-vES" userLabel="activeStackView">
                                 <rect key="frame" x="155" y="108" width="290" height="98"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" translatesAutoresizingMaskIntoConstraints="NO" id="wbB-FG-xKO">
+                                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="heart" translatesAutoresizingMaskIntoConstraints="NO" id="wbB-FG-xKO" customClass="DragImg" customModule="FeedTheMonster" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="95" height="98"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food" translatesAutoresizingMaskIntoConstraints="NO" id="0SC-rI-UuK">
+                                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="food" translatesAutoresizingMaskIntoConstraints="NO" id="0SC-rI-UuK" customClass="DragImg" customModule="FeedTheMonster" customModuleProvider="target">
                                         <rect key="frame" x="195" y="0.0" width="95" height="98"/>
                                     </imageView>
                                 </subviews>
@@ -151,6 +151,8 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="foodImg" destination="0SC-rI-UuK" id="7q2-2D-sMC"/>
+                        <outlet property="heartImg" destination="wbB-FG-xKO" id="6VO-r4-WNd"/>
                         <outlet property="monsterImg" destination="qA3-Gc-UNT" id="QIq-w1-NXj"/>
                     </connections>
                 </viewController>
