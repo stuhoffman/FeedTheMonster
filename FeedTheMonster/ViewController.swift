@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -19,11 +20,19 @@ class ViewController: UIViewController {
     let DIM_ALPHA: CGFloat = 0.2
     let OPAQUE: CGFloat = 1.0
     let MAX_PENALTIES = 3
+    let MUSIC_VOLUME: Float = 0.1
     
     var penalties = 0
     var timer: NSTimer!
     var monsterHappy = false
     var currentItem: UInt32 = 0
+    
+    var musicPlayer: AVAudioPlayer!
+    var sfxBite: AVAudioPlayer!
+    var sfxHeart: AVAudioPlayer!
+    var sfxDeath: AVAudioPlayer!
+    var sfxSkull: AVAudioPlayer!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +45,33 @@ class ViewController: UIViewController {
         penalty3img.alpha = DIM_ALPHA
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "itemDroppedOnCharacter:", name: "onTargetDropped", object: nil)
+        
+        do {
+            try musicPlayer = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("cave-music", ofType: "mp3")!))
+            
+            try sfxBite = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("bite", ofType: "wav")!))
+
+            try sfxHeart = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("heart", ofType: "wav")!))
+
+            try sfxDeath = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("death", ofType: "wav")!))
+
+            try sfxSkull  = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("skull", ofType: "wav")!))
+
+            musicPlayer.prepareToPlay()
+            musicPlayer.play()
+            musicPlayer.volume = MUSIC_VOLUME
+            sfxBite.prepareToPlay()
+            sfxBite.volume = MUSIC_VOLUME
+            sfxDeath.prepareToPlay()
+            sfxDeath.volume = MUSIC_VOLUME
+            sfxHeart.prepareToPlay()
+            sfxHeart.volume = MUSIC_VOLUME
+            sfxSkull.prepareToPlay()
+            sfxSkull.volume = MUSIC_VOLUME
+            
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
         startTimer()
     }
 
@@ -48,6 +84,12 @@ class ViewController: UIViewController {
         
         heartImg.alpha = DIM_ALPHA
         heartImg.userInteractionEnabled = false
+        
+        if currentItem == 0 {
+            sfxHeart.play()
+        } else if currentItem  == 1 {
+            sfxBite.play()
+        }
     }
 
     func startTimer() {
@@ -61,7 +103,9 @@ class ViewController: UIViewController {
     func changeGameState() {
         
         if !monsterHappy {
+
             penalties++
+            sfxSkull.play()
             
             if penalties == 1 {
                 penalty1img.alpha = OPAQUE
@@ -112,6 +156,7 @@ class ViewController: UIViewController {
     func gameOver() {
         timer.invalidate()
         monsterImg.playDeathAnimation()
+        sfxDeath.play()
     }
 }
 
